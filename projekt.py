@@ -3,12 +3,22 @@ import mediapipe as mp
 import os
 from datetime import datetime
 import numpy as np
+import pygame
+
+pygame.mixer.init()
 
 SAVE_DIR = "faces"
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 
-def load_vid(path, bg_color ="black", howbig_pixels = 350):
+def load_vid(path, bg_color ="black", howbig_pixels = 350, soundon = False, sound_name = "mlg_classic.mp3" ):
+
+    sound = pygame.mixer.Sound("mlg_classic.mp3") 
+    if soundon:
+        sound.play()
+        sound.play(loops=-1)
+        #sound.stop()
+
 
     """
     bg_color: "black", "white", "blue"
@@ -22,7 +32,6 @@ def load_vid(path, bg_color ="black", howbig_pixels = 350):
     cap = cv2.VideoCapture(path)
     frames = []
 
-    # lower V means darker pixels
     lower, upper = color_ranges.get(bg_color, color_ranges["black"]) 
     
     while True:
@@ -84,7 +93,7 @@ print("Have good time watching the movie! :)")
 
 cat_frames = load_vid(CAT_VIDEO)
 cat_index = 0
-bum_frames = load_vid(BUM, bg_color ="green", howbig_pixels = 750)
+bum_frames = load_vid(BUM, bg_color ="green", howbig_pixels = 750, soundon = True)
 bum_index = 0
 
 
